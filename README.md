@@ -37,7 +37,7 @@ The hardest part of handling asynchronous exceptions is to keep track of the con
 To set data for a context, you can use `Bugsnag.with`
 
 ```ruby
-Bugsnag.with(user: {id: '123'}) do
+Bugsnag.with(user_id: '123') do
   http = EM::HttpRequest.new('http://google.com/').get
   http.errback{ raise 'oops' }
   ...
