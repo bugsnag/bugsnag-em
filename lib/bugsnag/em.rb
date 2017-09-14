@@ -29,9 +29,17 @@ class << Bugsnag
     notify_without_lspace exception, overrides, request_data
   end
 
-  alias_method :auto_notify_without_lspace, :notify
+  alias_method :auto_notify_without_lspace, :auto_notify
   def auto_notify(exception, overrides=nil, request_data=nil)
     overrides = LSpace[:bugsnag].merge(overrides || {}) if LSpace[:bugsnag]
+    overrides = overrides.merge({
+      :severity_reason => {
+        :type => "middleware_handler",
+        :attributes => {
+          :name => "eventmachine"
+        }
+      }
+    })
     auto_notify_without_lspace exception, overrides, request_data
   end
 end
