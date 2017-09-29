@@ -1,6 +1,7 @@
 require 'eventmachine'
 require 'lspace/eventmachine'
 require 'bugsnag'
+require 'bugsnag/report'
 
 class << Bugsnag
   # With let's you set parameters on future calls to Bugsnag.notify.
@@ -34,9 +35,9 @@ class << Bugsnag
     overrides = LSpace[:bugsnag].merge(overrides || {}) if LSpace[:bugsnag]
     overrides = overrides.merge({
       :severity_reason => {
-        :type => "middleware_handler",
+        :type => Bugsnag::Report::UNHANDLED_EXCEPTION_MIDDLEWARE,
         :attributes => {
-          :name => "eventmachine"
+          :framework => "Eventmachine"
         }
       }
     })
