@@ -1,6 +1,7 @@
 require 'eventmachine'
 require 'lspace/eventmachine'
 require 'bugsnag'
+require 'bugsnag/report'
 
 class << Bugsnag
   # With let's you set parameters on future calls to Bugsnag.notify.
@@ -29,9 +30,17 @@ class << Bugsnag
     notify_without_lspace exception, overrides, request_data
   end
 
-  alias_method :auto_notify_without_lspace, :notify
+  alias_method :auto_notify_without_lspace, :auto_notify
   def auto_notify(exception, overrides=nil, request_data=nil)
     overrides = LSpace[:bugsnag].merge(overrides || {}) if LSpace[:bugsnag]
+    overrides = overrides.merge({
+      :severity_reason => {
+        :type => Bugsnag::Report::UNHANDLED_EXCEPTION_MIDDLEWARE,
+        :attributes => {
+          :framework => "Eventmachine"
+        }
+      }
+    })
     auto_notify_without_lspace exception, overrides, request_data
   end
 end
