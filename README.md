@@ -3,6 +3,8 @@ Bugsnag notifier for EventMachine
 
 The Bugsnag notifier for EventMachine makes it easy to track errors and exceptions inside EventMachine, no matter how many callbacks or deferrables you're using!
 
+**Bugsnag EventMachine is not compatible with Bugsnag Ruby v6+**
+
 How to Install
 --------------
 
@@ -10,6 +12,7 @@ How to Install
 
    ```ruby
    gem "bugsnag-em"
+   gem "bugsnag", "~> 5.0" # bugsnag-em is not compatible with bugsnag-ruby v6
    ```
 
 2. Install the gem
